@@ -1,0 +1,139 @@
+/* anims */
+.options button {
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate-reverse;
+  animation-duration: 5s;
+  animation-name: button-twist;
+}
+
+/* everything else */
+body {
+  background-color: #e5e5f7;
+  opacity: 0.8;
+  background: linear-gradient(#0d0e2d 1.7px, transparent 1.7px), linear-gradient(to right, #0d0e2d 1.7px, hsl(266, 66%, 15%) 1.7px);
+  background-size: 34px 34px;
+  animation-name: texture-move;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:link {
+  color: rgb(0, 94, 255);
+}
+
+a:hover {
+  color: #f0a;
+}
+
+a:active {
+  color: #f00;
+}
+
+a:visited {
+  color: rgb(70, 116, 151);
+}
+
+p {
+  color: rgb(255, 255, 255);
+}
+
+h1 {
+  color: white;
+  font-family: monospace;
+  font-size: 12px;
+  font-weight: lighter;
+  left: 0;
+  right: inherit;
+  margin-top: 325px;
+  margin-bottom: 20px;
+  letter-spacing: 1em;
+  text-align: center;
+}
+
+ul {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.options button {
+  background: linear-gradient(180deg, #180c2f 0%, rgb(17, 9, 33) 100%);
+  border-color: #250e42;
+  border-radius: 4px;
+  box-sizing: border-box;
+  color: white;
+  cursor: pointer;
+  font-family: monospace;
+  font-size: 15px;
+  height: 3em;
+  margin-top: 10px;
+  padding: 10px 20px;
+  text-align: center;
+  transition: ease-in-out 0.125s;
+  transform: skewY(-3deg);
+  width: 250px;
+}
+
+.options button:hover {
+  background: linear-gradient(180deg, #2e1a55 0%, rgb(51, 22, 110) 100%);
+  width: 275px;
+}
+
+footer {
+  font-family: monospace;
+  font-weight: lighter;
+  padding-top: 17.5%;
+  text-align: center;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0d0e2d;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgb(46, 38, 118);
+}
+
+/* -- anims -- */
+@keyframes texture-move {
+  0% {
+    background-position: 34px 34px;
+  }
+  100% {
+    background-position: 0px 0px;
+  }
+}
+@keyframes button-twist {
+  0% {
+    transform: skewY(-3deg);
+  }
+  100% {
+    transform: skewY(3deg);
+  }
+}
+#container3D {
+  position: fixed;
+  inset: 0;
+  z-index: -100;
+  pointer-events: none;
+}
+
+#krabbanomalous {
+  opacity: 0.375;
+  color: #000;
+  float: none;
+}/*# sourceMappingURL=style.css.map */
