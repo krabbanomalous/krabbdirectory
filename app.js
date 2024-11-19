@@ -10,7 +10,8 @@ const GrainShader = {
     uniforms: {
         tDiffuse: { value: null },
         time: { value: 0.0 },
-        amount: { value: 0.2 } // Adjust this value for grain intensity
+        amount: { value: 0.2 }, // Adjust this value for grain intensity
+        staticColor: { value: new THREE.Color(0, 0, 0.7) }
     },
     vertexShader: `
         varying vec2 vUv;
@@ -24,6 +25,7 @@ const GrainShader = {
         uniform sampler2D tDiffuse;
         uniform float time;
         uniform float amount;
+        uniform vec3 staticColor;
 
         float random(vec2 co) {
             return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);
@@ -37,7 +39,74 @@ const GrainShader = {
             }
             float grain = random(vUv + time) * 2.0 - 1.0; // Grain value in range [-1, 1]
             grain *= amount;
-            gl_FragColor = vec4(color.rgb + grain, color.a);
+            vec3 grainEffect = staticColor * grain;
+            gl_FragColor = vec4(color.rgb + grainEffect, color.a);
+        }
+    `
+};
+
+const HorizontalBlurShader = {
+    uniforms: {
+        tDiffuse: { value: null },
+        h: { value: 1.0 / 512.0 }, // Adjust based on resolution
+    },
+    vertexShader: `
+        varying vec2 vUv;
+        void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+    `,
+    fragmentShader: `
+        uniform sampler2D tDiffuse;
+        uniform float h;
+        varying vec2 vUv;
+
+        void main() {
+            vec4 sum = vec4(0.0);
+            sum += texture2D(tDiffuse, vec2(vUv.x - 4.0 * h, vUv.y)) * 0.05;
+            sum += texture2D(tDiffuse, vec2(vUv.x - 3.0 * h, vUv.y)) * 0.09;
+            sum += texture2D(tDiffuse, vec2(vUv.x - 2.0 * h, vUv.y)) * 0.12;
+            sum += texture2D(tDiffuse, vec2(vUv.x - 1.0 * h, vUv.y)) * 0.15;
+            sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y)) * 0.16;
+            sum += texture2D(tDiffuse, vec2(vUv.x + 1.0 * h, vUv.y)) * 0.15;
+            sum += texture2D(tDiffuse, vec2(vUv.x + 2.0 * h, vUv.y)) * 0.12;
+            sum += texture2D(tDiffuse, vec2(vUv.x + 3.0 * h, vUv.y)) * 0.09;
+            sum += texture2D(tDiffuse, vec2(vUv.x + 4.0 * h, vUv.y)) * 0.05;
+            gl_FragColor = sum;
+        }
+    `
+};
+
+const VerticalBlurShader = {
+    uniforms: {
+        tDiffuse: { value: null },
+        v: { value: 1.0 / 512.0 }, // Adjust based on resolution
+    },
+    vertexShader: `
+        varying vec2 vUv;
+        void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+    `,
+    fragmentShader: `
+        uniform sampler2D tDiffuse;
+        uniform float v;
+        varying vec2 vUv;
+
+        void main() {
+            vec4 sum = vec4(0.0);
+            sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y - 4.0 * v)) * 0.05;
+            sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y - 3.0 * v)) * 0.09;
+            sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y - 2.0 * v)) * 0.12;
+            sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y - 1.0 * v)) * 0.15;
+            sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y)) * 0.16;
+            sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y + 1.0 * v)) * 0.15;
+            sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y + 2.0 * v)) * 0.12;
+            sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y + 3.0 * v)) * 0.09;
+            sum += texture2D(tDiffuse, vec2(vUv.x, vUv.y + 4.0 * v)) * 0.05;
+            gl_FragColor = sum;
         }
     `
 };
@@ -83,7 +152,7 @@ document.getElementById('container3D').appendChild(renderer.domElement);
 const ambientLight = new THREE.AmbientLight(0x000000, 1.3);
 scene.add(ambientLight);
 
-const topLight = new THREE.DirectionalLight(0x3e198a, 1);
+const topLight = new THREE.DirectionalLight(0x1f0652, 1);
 topLight.position.set(500, 500, 500);
 scene.add(topLight);
 
@@ -91,6 +160,14 @@ scene.add(topLight);
 const composer = new EffectComposer(renderer);
 const renderPass = new RenderPass(scene, camera);
 composer.addPass(renderPass);
+
+const horizontalBlurPass = new ShaderPass(HorizontalBlurShader);
+horizontalBlurPass.uniforms.h.value = 2.0 / window.innerWidth; // Adjust for screen size
+composer.addPass(horizontalBlurPass);
+
+const verticalBlurPass = new ShaderPass(VerticalBlurShader);
+verticalBlurPass.uniforms.v.value = 2.0 / window.innerHeight; // Adjust for screen size
+composer.addPass(verticalBlurPass);
 
 const grainPass = new ShaderPass(GrainShader);
 composer.addPass(grainPass);

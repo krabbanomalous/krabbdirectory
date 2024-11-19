@@ -129,5 +129,6 @@ footer {
   position: fixed;
   inset: 0;
   z-index: -100;
+  opacity: 100;
   pointer-events: none;
 }/*# sourceMappingURL=style.css.map */
