@@ -10,7 +10,7 @@ const GrainShader = {
     uniforms: {
         tDiffuse: { value: null },
         time: { value: 0.0 },
-        amount: { value: 0.2 }, // Adjust this value for grain intensity
+        amount: { value: 0.25 }, // Adjust this value for grain intensity
         staticColor: { value: new THREE.Color(0, 0, 0.7) }
     },
     vertexShader: `
