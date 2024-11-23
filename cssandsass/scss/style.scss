@@ -13,7 +13,7 @@ body {
   background-color: #e5e5f7;
   opacity: 0.8;
   background: linear-gradient(#0d0e2d 1.7px, transparent 1.7px),
-  linear-gradient(to right, #0d0e2d 1.7px, hsl(266, 66%, 15%) 1.7px);
+  linear-gradient(to right, #0d0e2d 1.7px, hsl(266, 66%, 15%) 1.7px); // BACKGROUND SOURCE: @d__raptis (Twitter) via https://www.magicpattern.design/tools/css-backgrounds
   background-size: 34px 34px;
   animation-name: texture-move;
   animation-duration: 0.5s;
@@ -94,7 +94,7 @@ ul {
 footer {
   font-family: monospace;
   font-weight: lighter;
-  padding-top: 17.5%;
+  padding-top: 15%;
   text-align: center;
 }
 
