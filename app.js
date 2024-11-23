@@ -5,6 +5,8 @@ import { EffectComposer } from 'https://cdn.skypack.dev/three@0.129.0/examples/j
 import { RenderPass } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/postprocessing/RenderPass.js';
 import { ShaderPass } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/postprocessing/ShaderPass.js';
 
+// DISCLAIMER : The Shaders were all programmed with the help of ChatGPT.
+
 // Grain Shader
 const GrainShader = {
     uniforms: {
