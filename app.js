@@ -6,6 +6,7 @@ import { RenderPass } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/p
 import { ShaderPass } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/postprocessing/ShaderPass.js';
 
 // DISCLAIMER : The Shaders were all programmed with the help of ChatGPT.
+// The 3D model, however, is authentic.
 
 // Grain Shader
 const GrainShader = {
